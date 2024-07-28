@@ -1,0 +1,24 @@
+{% extends 'AppBiblioteca/base.html' %}
+
+
+{% block ContenidoQueCambia%}
+
+<h2>Autores</h2>
+<ul>
+    {% for autor in autores %}
+        <li>{{ autor.nombre }} {{ autor.apellido }}</li>
+        <ul>
+            {% for libro in autor.libro_set.all %}
+                <li>{{ libro.titulo }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</ul>
+<h3>Agregar Autor</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar</button>
+</form>
+
+{%  endblock %}

@@ -1,0 +1,31 @@
+{% extends 'AppBiblioteca/base.html' %}
+
+{% block ContenidoQueCambia %}
+<h1>Página de Inicio</h1>
+
+<!-- Formulario de búsqueda -->
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Buscar</button>
+</form>
+
+<!-- Mostrar resultados de búsqueda -->
+{% if libros %}
+    <h2>Resultados de búsqueda:</h2>
+    <ul>
+        {% for libro in libros %}
+            <li>{{ libro.titulo }} - {{ libro.autor }} - {{ libro.fecha_publicacion }} - 
+                {% if libro.disponible %}
+                    Disponible
+                {% else %}
+                    No disponible
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No se encontraron libros.</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% endblock %}

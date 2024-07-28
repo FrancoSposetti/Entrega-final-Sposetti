@@ -1,0 +1,29 @@
+{% extends 'AppBiblioteca/base.html' %}
+
+{% block ContenidoQueCambia %}
+<h2>Disponibilidad y Alquiler de Libros</h2>
+
+<!-- Listado de libros -->
+<h3>Libros</h3>
+<ul>
+    {% for libro in libros %}
+        <li>{{ libro.titulo }} - {% if libro.disponible %} Disponible {% else %} No Disponible {% endif %}</li>
+    {% endfor %}
+</ul>
+
+<!-- Formulario de alquiler -->
+<h3>Alquilar Libro</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ alquiler_form.as_p }}
+    <button type="submit" name="alquiler_form">Alquilar</button>
+</form>
+
+<!-- Formulario de devolución -->
+<h3>Devolver Libro</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ devolucion_form.as_p }}
+    <button type="submit" name="devolucion_form">Devolver</button>
+</form>
+{% endblock %}
