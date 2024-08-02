@@ -77,7 +77,7 @@ def disponibilidad_y_alquiler(request):
                 alquiler.libro.disponible = False
                 alquiler.libro.save()  #Guardo los cambios en el libro
                 alquiler.save()  #Guardo el alquiler en la base de datos
-                #Muestr un mensaje de éxito al usuario
+                #Muestro un mensaje de éxito al usuario
                 messages.success(request, f"Libro '{alquiler.libro}' alquilado exitosamente.")
                 #Redirecciono al usuario a la pagina de nuevo
                 return redirect('disponibilidad_y_alquiler')
