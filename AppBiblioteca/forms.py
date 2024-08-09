@@ -19,24 +19,36 @@ class LibroForm(forms.ModelForm):
 class AlquilerForm(forms.ModelForm):
     class Meta:
         model = Alquiler
-        fields = ['libro', 'fecha_alquiler']
-    def __init__(self, *args, **kwargs):
-        #Llamo al inicializador de la clase base
-        super().__init__(*args, **kwargs)
-        #Filtro los libros que están disponibles (libros no alquilados)
-        libros_disponibles = Libro.objects.filter(disponible=True)
-        self.fields['libro'].queryset = libros_disponibles
+        fields = ['libro']
 
+    def save(self, commit=True):
+        alquiler = super().save(commit=False)
+        alquiler.usuario = self.current_user
+        if commit:
+            alquiler.save()
+        return alquiler
+
+    def __init__(self, *args, **kwargs):
+        self.current_user = kwargs.pop('current_user', None)
+        super().__init__(*args, **kwargs)
 #formulario para seleccionar un libro ya alquilado y devolverlo.
 class DevolucionForm(forms.ModelForm):
     class Meta:
         model = Alquiler
         fields = ['libro']
-#defino un metado inicializar para el formulario
+
     def __init__(self, *args, **kwargs):
-        #llamo al inicilizador de la clase base
+        self.current_user = kwargs.pop('current_user', None)
         super().__init__(*args, **kwargs)
-        # busco los ID de los libros ya alquilados
-        libros_alquilados = Alquiler.objects.filter(libro__disponible=False).values_list('libro_id', flat=True)
-        # filtro los libros cuyo ID se encuentre en libros_alquilados
-        self.fields['libro'].queryset = Libro.objects.filter(id__in=libros_alquilados)
+        if self.current_user:
+            # Filtra los libros alquilados por el usuario actual
+            self.fields['libro'].queryset = Libro.objects.filter(
+                alquiler__usuario=self.current_user,
+                alquiler__libro__disponible=False
+            ).distinct()
+
+    def clean_libro(self):
+        libro = self.cleaned_data['libro']
+        if not Alquiler.objects.filter(libro=libro, usuario=self.current_user).exists():
+            raise forms.ValidationError("No tienes un alquiler activo para este libro.")
+        return libro

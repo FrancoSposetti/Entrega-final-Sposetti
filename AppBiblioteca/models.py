@@ -1,7 +1,8 @@
-# models.py 
-
+# models.py
 from django.db import models
+from django.contrib.auth.models import User
 from django.utils import timezone
+from django.conf import settings 
 
 class Autor(models.Model):
     nombre = models.CharField(max_length=100)
@@ -17,13 +18,14 @@ class Libro(models.Model):
     autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
     fecha_publicacion = models.DateField()
     isbn = models.CharField(max_length=13, unique=True)
-    disponible = models.BooleanField(default=True)  #Campo booleano para la disponibilidad
+    disponible = models.BooleanField(default=True)  # Campo booleano para la disponibilidad
 
     def __str__(self):
         return self.titulo
 
 class Alquiler(models.Model):
     libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)  # Actualiza esto
     fecha_alquiler = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

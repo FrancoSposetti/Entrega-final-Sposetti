@@ -416,7 +416,6 @@ legend {
   font-size: calc(1.275rem + 0.3vw);
   line-height: inherit;
 }
-
 @media (min-width: 1200px) {
   legend {
     font-size: 1.5rem;
@@ -3685,31 +3684,6 @@ textarea.form-control-lg {
   align-items: center;
   justify-content: space-between;
 }
-/* Alinea verticalmente los elementos dentro de la barra de navegación */
-.navbar-nav .nav-item {
-  display: flex;
-  align-items: center;
-}
-
-/* Ajusta el padding y el margen del botón del menú desplegable */
-.navbar .nav-link.dropdown-toggle {
-  padding-top: 0.5rem; /* Ajusta el padding superior si es necesario */
-  padding-bottom: 0.5rem; /* Ajusta el padding inferior si es necesario */
-  margin-bottom: 0; /* Asegúrate de que no haya márgenes adicionales */
-}
-
-/* Ajusta el padding y margen de los elementos de la barra de navegación */
-.navbar-nav .nav-link {
-  padding: 0.5rem 1rem; /* Ajusta el padding si es necesario */
-  margin-bottom: 0; /* Asegúrate de que no haya márgenes adicionales */
-}
-
-/* Ajusta el menú desplegable */
-.navbar .dropdown-menu {
-  margin-top: 0; /* Asegúrate de que el menú no se desplace hacia arriba */
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Opcional: agrega una sombra */
-}
-
 .navbar-brand {
   padding-top: var(--bs-navbar-brand-padding-y);
   padding-bottom: var(--bs-navbar-brand-padding-y);
@@ -3734,7 +3708,6 @@ textarea.form-control-lg {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
-  margin: 0;
 }
 .navbar-nav .show > .nav-link,
 .navbar-nav .nav-link.active {
