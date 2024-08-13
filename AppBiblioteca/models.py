@@ -1,4 +1,3 @@
-# models.py
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -18,14 +17,15 @@ class Libro(models.Model):
     autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
     fecha_publicacion = models.DateField()
     isbn = models.CharField(max_length=13, unique=True)
-    disponible = models.BooleanField(default=True)  # Campo booleano para la disponibilidad
+    disponible = models.BooleanField(default=True)
+    portada = models.ImageField(upload_to='portadas/', null=True, blank=True)  # Nuevo campo para la portada
 
     def __str__(self):
         return self.titulo
 
 class Alquiler(models.Model):
     libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)  # Actualiza esto
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
     fecha_alquiler = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

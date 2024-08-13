@@ -17,7 +17,7 @@ class PaginaInicioView(FormView):
             libros = Libro.objects.filter(titulo__icontains=titulo)
         return self.render_to_response(self.get_context_data(form=form, libros=libros))
 
-class ListarLibrosView(LoginRequiredMixin,ListView, FormView):
+class ListarLibrosView(LoginRequiredMixin, ListView, FormView):
     model = Libro
     template_name = 'AppBiblioteca/listar_libros.html'
     form_class = LibroForm
@@ -30,7 +30,7 @@ class ListarLibrosView(LoginRequiredMixin,ListView, FormView):
         return context
 
     def post(self, request, *args, **kwargs):
-        form = self.get_form()
+        form = self.get_form(self.get_form_class(), request.POST, request.FILES)  # Incluir request.FILES
         if form.is_valid():
             return self.form_valid(form)
         else:
@@ -39,7 +39,6 @@ class ListarLibrosView(LoginRequiredMixin,ListView, FormView):
     def form_valid(self, form):
         form.save()
         return redirect(self.success_url)
-
 class ListarAutoresView(LoginRequiredMixin,ListView, FormView):
     model = Autor
     template_name = 'AppBiblioteca/listar_autores.html'
@@ -63,14 +62,32 @@ class ListarAutoresView(LoginRequiredMixin,ListView, FormView):
         form.save()
         return redirect(self.success_url)
 
+# views.py
+from django.shortcuts import redirect
+from django.contrib import messages
+from django.views.generic import TemplateView
+from .forms import AlquilerForm, DevolucionForm, LibroFilterForm
+from .models import Libro, Alquiler
+
 class DisponibilidadYAlquilerView(LoginRequiredMixin, TemplateView):
     template_name = 'AppBiblioteca/disponibilidad_y_alquiler.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['libros'] = Libro.objects.all()
+        # Obtener el filtro de disponibilidad del GET request
+        disponibilidad = self.request.GET.get('disponibilidad', '')
+
+        # Aplicar el filtro a la consulta de libros
+        if disponibilidad == 'disponible':
+            context['libros'] = Libro.objects.filter(disponible=True)
+        elif disponibilidad == 'no_disponible':
+            context['libros'] = Libro.objects.filter(disponible=False)
+        else:
+            context['libros'] = Libro.objects.all()
+        
         context['alquiler_form'] = AlquilerForm()
         context['devolucion_form'] = DevolucionForm(current_user=self.request.user)
+        context['filter_form'] = LibroFilterForm(initial={'disponibilidad': disponibilidad})
         return context
 
     def post(self, request, *args, **kwargs):
@@ -105,3 +122,8 @@ class DisponibilidadYAlquilerView(LoginRequiredMixin, TemplateView):
         
         context = self.get_context_data()
         return self.render_to_response(context)
+
+
+
+class AboutView(TemplateView):
+    template_name = 'AppBiblioteca/about.html'

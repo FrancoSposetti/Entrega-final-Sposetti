@@ -1,29 +1,49 @@
 {% extends 'AppBiblioteca/base.html' %}
 
 {% block ContenidoQueCambia %}
-<h2>Disponibilidad y Alquiler de Libros</h2>
+<div class="container mt-4">
+    <h2>Disponibilidad y Alquiler de Libros</h2>
+    
+    <!-- Formulario de filtro -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <form method="get" action="{% url 'disponibilidad_y_alquiler' %}" class="mb-3">
+                <div class="form-group">
+                    <label for="disponibilidad">Filtrar por Disponibilidad:</label>
+                    {{ filter_form.disponibilidad.label_tag }}
+                    {{ filter_form.disponibilidad }}
+                </div>
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </form>
+        </div>
+    </div>
 
-<!-- Listado de libros -->
-<h3>Libros</h3>
-<ul>
-    {% for libro in libros %}
-        <li>{{ libro.titulo }} - {% if libro.disponible %} Disponible {% else %} No Disponible {% endif %}</li>
-    {% endfor %}
-</ul>
+    <!-- Listado de libros -->
+    <h3>Libros</h3>
+    <ul class="list-group mb-4">
+        {% for libro in libros %}
+            <li class="list-group-item">
+                {{ libro.titulo }} - {% if libro.disponible %} Disponible {% else %} No Disponible {% endif %}
+            </li>
+        {% empty %}
+            <li class="list-group-item">No hay libros disponibles según el filtro aplicado.</li>
+        {% endfor %}
+    </ul>
 
-<!-- Formulario de alquiler -->
-<h3>Alquilar Libro</h3>
-<form method="post">
-    {% csrf_token %}
-    {{ alquiler_form.as_p }}
-    <button type="submit" name="alquiler_form">Alquilar</button>
-</form>
+    <!-- Formulario de alquiler -->
+    <h3>Alquilar Libro</h3>
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+        {{ alquiler_form.as_p }}
+        <button type="submit" name="alquiler_form" class="btn btn-success">Alquilar</button>
+    </form>
 
-<!-- Formulario de devolución -->
-<h3>Devolver Libro</h3>
-<form method="post">
-    {% csrf_token %}
-    {{ devolucion_form.as_p }}
-    <button type="submit" name="devolucion_form">Devolver</button>
-</form>
+    <!-- Formulario de devolución -->
+    <h3>Devolver Libro</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ devolucion_form.as_p }}
+        <button type="submit" name="devolucion_form" class="btn btn-warning">Devolver</button>
+    </form>
+</div>
 {% endblock %}

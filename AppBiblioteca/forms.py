@@ -14,12 +14,18 @@ class AutorForm(forms.ModelForm):
 class LibroForm(forms.ModelForm):
     class Meta:
         model = Libro
-        fields = ['titulo', 'autor', 'fecha_publicacion', 'isbn', 'disponible']
+        fields = ['titulo', 'autor', 'fecha_publicacion', 'isbn', 'disponible', 'portada']  # Agregar 'portada' a los campos
 #formulario para seleccionar un libro y alquilarlo.
 class AlquilerForm(forms.ModelForm):
     class Meta:
         model = Alquiler
         fields = ['libro']
+
+    def __init__(self, *args, **kwargs):
+        self.current_user = kwargs.pop('current_user', None)
+        super().__init__(*args, **kwargs)
+        # Filtrar libros disponibles
+        self.fields['libro'].queryset = Libro.objects.filter(disponible=True)
 
     def save(self, commit=True):
         alquiler = super().save(commit=False)
@@ -28,9 +34,6 @@ class AlquilerForm(forms.ModelForm):
             alquiler.save()
         return alquiler
 
-    def __init__(self, *args, **kwargs):
-        self.current_user = kwargs.pop('current_user', None)
-        super().__init__(*args, **kwargs)
 #formulario para seleccionar un libro ya alquilado y devolverlo.
 class DevolucionForm(forms.ModelForm):
     class Meta:
@@ -52,3 +55,19 @@ class DevolucionForm(forms.ModelForm):
         if not Alquiler.objects.filter(libro=libro, usuario=self.current_user).exists():
             raise forms.ValidationError("No tienes un alquiler activo para este libro.")
         return libro
+    
+class LibroFilterForm(forms.Form):
+    DISPONIBLE = 'disponible'
+    NO_DISPONIBLE = 'no_disponible'
+    
+    DISPONIBILIDAD_CHOICES = [
+        (DISPONIBLE, 'Disponibles'),
+        (NO_DISPONIBLE, 'No Disponibles'),
+        ('', 'Todos')  # Para mostrar todos los libros si no se selecciona ningún filtro
+    ]
+    
+    disponibilidad = forms.ChoiceField(
+        choices=DISPONIBILIDAD_CHOICES,
+        required=False,
+        label='Filtrar por Disponibilidad'
+    )

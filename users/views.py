@@ -5,6 +5,8 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import CustomUser
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
@@ -25,3 +27,10 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         return self.request.user
+
+    def form_valid(self, form):
+        password = form.cleaned_data.get('password')
+        if password:
+            self.request.user.set_password(password)
+            update_session_auth_hash(self.request, self.request.user)
+        return super().form_valid(form)

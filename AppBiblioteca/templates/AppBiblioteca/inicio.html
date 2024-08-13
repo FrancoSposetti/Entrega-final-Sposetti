@@ -15,7 +15,13 @@
     <h2>Resultados de búsqueda:</h2>
     <ul>
         {% for libro in libros %}
-            <li>{{ libro.titulo }} - {{ libro.autor }} - {{ libro.fecha_publicacion }} - 
+            <li>
+                <!-- Mostrar la imagen de la portada si existe -->
+                {% if libro.portada %}
+                    <img src="{{ libro.portada.url }}" alt="Portada de {{ libro.titulo }}" width="100" style="vertical-align:middle; margin-right:10px;">
+                {% endif %}
+                <!-- Mostrar detalles del libro -->
+                {{ libro.titulo }} - {{ libro.autor }} - {{ libro.fecha_publicacion }} - 
                 {% if libro.disponible %}
                     Disponible
                 {% else %}

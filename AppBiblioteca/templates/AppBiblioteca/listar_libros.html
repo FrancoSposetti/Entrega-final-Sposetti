@@ -1,16 +1,16 @@
 {% extends 'AppBiblioteca/base.html' %}
 
+{% block ContenidoQueCambia %}
 
-{% block ContenidoQueCambia%}
-
-
-<h1>Pagina de libros</h1>
+<h1>Página de Libros</h1>
 
 <h3>Agregar Libro</h3>
-<form method="post">
+<form method="post" enctype="multipart/form-data">  <!-- Agregar enctype="multipart/form-data" -->
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Guardar</button>
 </form>
-{%  endblock %}
 
+
+
+{% endblock %}
