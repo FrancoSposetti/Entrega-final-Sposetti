@@ -1,4 +1,4 @@
-<!-- templates/profile/update.html -->
+<!-- templates/users/update.html -->
 {% extends 'AppBiblioteca/base.html' %}
 
 {% block ContenidoQueCambia %}
@@ -6,11 +6,12 @@
     <div class="row justify-content-center">
       <div class="col-md-6">
         <h2 class="mb-4">Actualizar Perfil</h2>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
           {{ form.as_p }}
-          <button type="submit" class="btn btn-primary btn-block">Actualizar</button>
+          <button type="submit" class="btn btn-primary btn-block">Actualizar Perfil</button>
         </form>
+        <a href="{% url 'password_change' %}" class="btn btn-secondary mt-3">Cambiar Contraseña</a>
       </div>
     </div>
   </div>
