@@ -1,9 +1,16 @@
 {% extends 'AppBiblioteca/base.html' %}
 
-
-{% block ContenidoQueCambia%}
+{% block ContenidoQueCambia %}
 
 <h2>Autores</h2>
+<!-- Mostrar mensajes de error o éxito -->
+{% if messages %}
+    <div class="alert alert-info">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
 <ul>
     {% for autor in autores %}
         <li>{{ autor.nombre }} {{ autor.apellido }}</li>
@@ -15,10 +22,10 @@
     {% endfor %}
 </ul>
 <h3>Agregar Autor</h3>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Guardar</button>
+    <button type="submit" class="btn btn-success">Guardar</button>
 </form>
 
-{%  endblock %}
+{% endblock %}

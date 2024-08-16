@@ -9,6 +9,6 @@ urlpatterns = [
     path('users/', include('users.urls')),
 ]
 
-# Configuración para servir archivos multimedia en desarrollo
+# Configuración para servir archivos multimedia 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

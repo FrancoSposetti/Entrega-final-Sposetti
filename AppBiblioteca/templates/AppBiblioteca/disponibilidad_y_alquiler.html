@@ -9,7 +9,7 @@
         <div class="col-md-4">
             <form method="get" action="{% url 'disponibilidad_y_alquiler' %}" class="mb-3">
                 <div class="form-group">
-                    <label for="disponibilidad">Filtrar por Disponibilidad:</label>
+                    {% comment %} <label for="disponibilidad">Filtrar por Disponibilidad:</label> {% endcomment %}
                     {{ filter_form.disponibilidad.label_tag }}
                     {{ filter_form.disponibilidad }}
                 </div>
@@ -24,11 +24,26 @@
         {% for libro in libros %}
             <li class="list-group-item">
                 {{ libro.titulo }} - {% if libro.disponible %} Disponible {% else %} No Disponible {% endif %}
+                <a href="?libro_id={{ libro.id }}&disponibilidad={{ filter_form.initial.disponibilidad }}" class="btn btn-info btn-sm float-right">Ver más</a>
             </li>
         {% empty %}
             <li class="list-group-item">No hay libros disponibles según el filtro aplicado.</li>
         {% endfor %}
     </ul>
+
+    <!-- Detalles del libro seleccionado -->
+    {% if libro_seleccionado %}
+        <h3>Detalles del libro seleccionado</h3>
+        <p><strong>Título:</strong> {{ libro_seleccionado.titulo }}</p>
+        <p><strong>Autor:</strong> {{ libro_seleccionado.autor }}</p>
+        <p><strong>Fecha de Publicación:</strong> {{ libro_seleccionado.fecha_publicacion }}</p>
+        <p><strong>ISBN:</strong> {{ libro_seleccionado.isbn }}</p>
+        <p><strong>Disponible:</strong> {% if libro_seleccionado.disponible %} Sí {% else %} No {% endif %}</p>
+        {% if libro_seleccionado.portada %}
+            <p><strong>Portada:</strong></p>
+            <img src="{{ libro_seleccionado.portada.url }}" alt="Portada del libro" class="img-fluid">
+        {% endif %}
+    {% endif %}
 
     <!-- Formulario de alquiler -->
     <h3>Alquilar Libro</h3>

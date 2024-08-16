@@ -46,7 +46,7 @@ Sigue estos pasos para instalar y configurar el proyecto en tu entorno local:
 
 ### Gestión de Autores
 
-1. Ve a la sección de gestión de autores.
+1. Ve a la sección de autores.
 2. Podrás ver una lista de autores.
 3. Usa el formulario para añadir un nuevo autor.
 
@@ -60,14 +60,32 @@ Sigue estos pasos para instalar y configurar el proyecto en tu entorno local:
 1. Ve a la sección de alquiler y devolución de libros.
 2. Para alquilar un libro, utiliza el formulario de alquiler. Solo los libros disponibles aparecerán en el listado.
 3. Para devolver un libro, utiliza el formulario de devolución. Solo los libros alquilados aparecerán en el listado.
+4. Ademas, podras filtar los libros por "disponible" o "no disponible" y podras ver mas informacion de los mismos.
 
 ## Estructura del Proyecto
 
-- `AppBiblioteca/`: Carpeta principal del proyecto.
-- `AppBiblioteca/models.py`: Definición de los modelos de datos (Autor, Libro, Alquiler).
-- `AppBiblioteca/forms.py`: Definición de los formularios (BusquedaLibroForm, AutorForm, LibroForm, AlquilerForm, DevolucionForm).
-- `AppBiblioteca/views.py`: Definición de las vistas para manejar las peticiones y renderizar las páginas.
-- `AppBiblioteca/templates/AppBiblioteca/`: Plantillas HTML para las vistas.
-- `AppBiblioteca/urls.py`: Definición de las rutas de la aplicación.
+El proyecto está organizado en las siguientes carpetas principales:
+
+- `AppBiblioteca/`: Carpeta que maneja todo lo relacionado con la gestión de libros, autores y alquileres.
+  - `models.py`: Definición de los modelos de datos (Autor, Libro, Alquiler).
+  - `forms.py`: Definición de los formularios (BusquedaLibroForm, AutorForm, LibroForm, AlquilerForm, DevolucionForm).
+  - `views.py`: Definición de las vistas para manejar las peticiones y renderizar las páginas.
+  - `templates/AppBiblioteca/`: Plantillas HTML para las vistas de `AppBiblioteca`.
+  - `urls.py`: Definición de las rutas específicas para `AppBiblioteca`.
+
+- `users/`: Carpeta que maneja todo lo relacionado con la gestión de usuarios.
+  - `models.py`: Definición del modelo de usuario personalizado.
+  - `forms.py`: Definición de los formularios para la gestión de usuarios (CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm).
+  - `views.py`: Definición de las vistas para el manejo de usuarios (registro, inicio de sesión, actualización de perfil, cambio de contraseña).
+  - `templates/users/`: Plantillas HTML para las vistas de `users`.
+
+- `media/`: Carpeta para almacenar archivos cargados por los usuarios, como avatares, portadas y otros documentos.
+
+- `TercerEntrega/`: Carpeta principal del proyecto que contiene la configuración del proyecto Django.
+  - `settings.py`: Configuración del proyecto Django.
+  - `urls.py`: Definición de las rutas globales del proyecto.
+  - `wsgi.py`: Configuración WSGI para el despliegue del proyecto.
+  - `__init__.py`: Archivo de inicialización del paquete.
+
 
 

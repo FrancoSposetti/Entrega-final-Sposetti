@@ -3,14 +3,20 @@
 {% block ContenidoQueCambia %}
 
 <h1>Página de Libros</h1>
-
+<!-- Mostrar mensajes de error o éxito -->
+{% if messages %}
+    <div class="alert alert-info">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+<!-- Formulario para agregar un nuevo libro -->
 <h3>Agregar Libro</h3>
 <form method="post" enctype="multipart/form-data">  <!-- Agregar enctype="multipart/form-data" -->
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Guardar</button>
+    <button type="submit" class="btn btn-success">Guardar</button>
 </form>
-
-
 
 {% endblock %}
