@@ -86,6 +86,6 @@ El proyecto está organizado en las siguientes carpetas principales:
   - `urls.py`: Definición de las rutas globales del proyecto.
   - `wsgi.py`: Configuración WSGI para el despliegue del proyecto.
   - `__init__.py`: Archivo de inicialización del paquete.
-
-
+ ## video explicativo 
+https://drive.google.com/drive/folders/1JRSx-ig5OM-TwRenMcmutMUSET6W5Sq5?usp=sharing
 
